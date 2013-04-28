@@ -23,8 +23,8 @@
     % costante, porre a 0 Gda, e introdurre la funzione Gda_s.
     % Nel caso in cui non risulti specificata porre Gda=1.
     Gda=1; 
-	Gda_s=s*0;
-	[num_Gda,den_Gda]=tfdata(Gda_s,'v');
+    Gda_s=s*0;
+    [num_Gda,den_Gda]=tfdata(Gda_s,'v');
 
     % Specificare la costante di guadagno del blocco Gdp, se diversa da una
     % costante, porre a 0 Gdp, e introdurre la funzione Gdp_s.
