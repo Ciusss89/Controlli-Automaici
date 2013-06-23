@@ -1,12 +1,12 @@
 Model {
-  Name			  "Simulatore_digitale_5"
+  Name			  "Simulatore_analogico_5"
   Version		  7.7
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.134"
+    ComputedModelVersion    "1.129"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -18,7 +18,7 @@ Model {
       Type		      "Cell"
       Dimension		      2
       Cell		      "HDLSubsystem"
-      Cell		      "Simulatore_digitale_5"
+      Cell		      "Simulatore_analogico_5"
       PropName		      "mdlProps"
     }
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 19 10:58:31 2013"
-  RTWModifiedTimeStamp	  293539119
-  ModelVersionFormat	  "1.%<AutoIncrement:134>"
+  LastModifiedDate	  "Tue Jun 18 22:22:17 2013"
+  RTWModifiedTimeStamp	  293494919
+  ModelVersionFormat	  "1.%<AutoIncrement:129>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -664,34 +664,6 @@ Model {
       PreserveConstantTs      off
     }
     Block {
-      BlockType		      DiscreteTransferFcn
-      Numerator		      "[1]"
-      Denominator	      "[1 0.5]"
-      InputProcessing	      "Elements as channels (sample based)"
-      InitialStates	      "0"
-      SampleTime	      "1"
-      a0EqualsOne	      off
-      NumCoefMin	      "[]"
-      NumCoefMax	      "[]"
-      DenCoefMin	      "[]"
-      DenCoefMax	      "[]"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      StateDataTypeStr	      "Inherit: Same as input"
-      NumCoefDataTypeStr      "Inherit: Inherit via internal rule"
-      DenCoefDataTypeStr      "Inherit: Inherit via internal rule"
-      NumProductDataTypeStr   "Inherit: Inherit via internal rule"
-      DenProductDataTypeStr   "Inherit: Inherit via internal rule"
-      NumAccumDataTypeStr     "Inherit: Inherit via internal rule"
-      DenAccumDataTypeStr     "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	off
-      StateMustResolveToSignalObject off
-      RTWStateStorageClass    "Auto"
-    }
-    Block {
       BlockType		      Gain
       Gain		      "1"
       Multiplication	      "Element-wise(K.*u)"
@@ -813,14 +785,10 @@ Model {
       ContinuousStateAttributes	"''"
       Realization	      "auto"
     }
-    Block {
-      BlockType		      ZeroOrderHold
-      SampleTime	      "1"
-    }
   }
   System {
-    Name		    "Simulatore_digitale_5"
-    Location		    [0, 55, 1440, 868]
+    Name		    "Simulatore_analogico_5"
+    Location		    [71, -82, 1367, 918]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -834,11 +802,33 @@ Model {
     ShowPageBoundaries	    on
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "192"
+    SIDHighWatermark	    "182"
     Block {
       BlockType		      Reference
-      Name		      " Switch 0"
-      SID		      "184"
+      Name		      " Switch1"
+      SID		      "175"
+      Ports		      [2, 1]
+      Position		      [215, 207, 245, 243]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      sw		      "1"
+      action		      "0"
+      varsize		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      " Switch2"
+      SID		      "176"
       Ports		      [2, 1]
       Position		      [155, 197, 185, 233]
       LibraryVersion	      "1.236"
@@ -859,8 +849,8 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      " Switch1"
-      SID		      "185"
+      Name		      " Switch3"
+      SID		      "177"
       Ports		      [2, 1]
       Position		      [155, 377, 185, 413]
       LibraryVersion	      "1.236"
@@ -881,55 +871,10 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      " Switch2"
-      SID		      "186"
-      Ports		      [2, 1]
-      Position		      [205, 207, 235, 243]
-      NamePlacement	      "alternate"
-      LibraryVersion	      "1.236"
-      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
-      SourceType	      "Manual Switch"
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      GeneratePreprocessorConditionals off
-      sw		      "1"
-      action		      "0"
-      varsize		      off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      " Switch3"
-      SID		      "187"
-      Ports		      [2, 1]
-      Position		      [255, 292, 285, 328]
-      LibraryVersion	      "1.236"
-      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
-      SourceType	      "Manual Switch"
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      GeneratePreprocessorConditionals off
-      sw		      "0"
-      action		      "0"
-      varsize		      off
-    }
-    Block {
-      BlockType		      Reference
       Name		      " Switch4"
-      SID		      "188"
+      SID		      "178"
       Ports		      [2, 1]
-      Position		      [680, 147, 710, 183]
+      Position		      [680, 142, 710, 178]
       LibraryVersion	      "1.236"
       SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
       SourceType	      "Manual Switch"
@@ -949,7 +894,51 @@ Model {
     Block {
       BlockType		      Reference
       Name		      " Switch5"
-      SID		      "189"
+      SID		      "179"
+      Ports		      [2, 1]
+      Position		      [1090, 367, 1120, 403]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      sw		      "1"
+      action		      "0"
+      varsize		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      " Switch6"
+      SID		      "174"
+      Ports		      [2, 1]
+      Position		      [265, 287, 295, 323]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      sw		      "0"
+      action		      "0"
+      varsize		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      " Switch7"
+      SID		      "180"
       Ports		      [2, 1]
       Position		      [620, 387, 650, 423]
       LibraryVersion	      "1.236"
@@ -970,36 +959,11 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      " Switch6"
-      SID		      "190"
+      Name		      " Switch8"
+      SID		      "181"
       Ports		      [2, 1]
       Position		      [470, 507, 500, 543]
       BlockMirror	      on
-      NamePlacement	      "alternate"
-      LibraryVersion	      "1.236"
-      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
-      SourceType	      "Manual Switch"
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      GeneratePreprocessorConditionals off
-      sw		      "0"
-      action		      "0"
-      varsize		      off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      " Switch7"
-      SID		      "191"
-      Ports		      [2, 1]
-      Position		      [815, 577, 845, 613]
-      BlockMirror	      on
-      NamePlacement	      "alternate"
       LibraryVersion	      "1.236"
       SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
       SourceType	      "Manual Switch"
@@ -1018,10 +982,12 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      " Switch8"
-      SID		      "192"
+      Name		      " Switch9"
+      SID		      "182"
       Ports		      [2, 1]
-      Position		      [1095, 367, 1125, 403]
+      Position		      [820, 577, 850, 613]
+      BlockMirror	      on
+      NamePlacement	      "alternate"
       LibraryVersion	      "1.236"
       SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
       SourceType	      "Manual Switch"
@@ -1042,7 +1008,7 @@ Model {
       BlockType		      TransferFcn
       Name		      "Bessel LP"
       SID		      "125"
-      Position		      [530, 609, 590, 651]
+      Position		      [535, 607, 595, 643]
       ZOrder		      -1
       BlockMirror	      on
       BackgroundColor	      "yellow"
@@ -1139,17 +1105,6 @@ Model {
       Amplitude		      "a_da"
       Frequency		      "Pulse_da"
       SampleTime	      "0"
-    }
-    Block {
-      BlockType		      DiscreteTransferFcn
-      Name		      "Discrete TF"
-      SID		      "179"
-      Position		      [435, 284, 500, 326]
-      ZOrder		      6
-      BackgroundColor	      "green"
-      Numerator		      "num_Gcz"
-      Denominator	      "den_Gcz"
-      SampleTime	      "Ts"
     }
     Block {
       BlockType		      Constant
@@ -1280,6 +1235,16 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      TransferFcn
+      Name		      "Gc"
+      SID		      "140"
+      Position		      [470, 287, 530, 323]
+      ZOrder		      -29
+      BackgroundColor	      "green"
+      Numerator		      "num_Gc"
+      Denominator	      "den_Gc"
+    }
+    Block {
       BlockType		      Gain
       Name		      "Gda"
       SID		      "121"
@@ -1295,7 +1260,7 @@ Model {
       BlockType		      TransferFcn
       Name		      "Gda(s)"
       SID		      "113"
-      Position		      [680, 362, 740, 408]
+      Position		      [680, 362, 740, 398]
       ZOrder		      -31
       BackgroundColor	      "red"
       Numerator		      "num_Gda"
@@ -1317,7 +1282,7 @@ Model {
       BlockType		      TransferFcn
       Name		      "Gdp(s)"
       SID		      "114"
-      Position		      [770, 145, 835, 185]
+      Position		      [770, 147, 830, 183]
       ZOrder		      -33
       BackgroundColor	      "red"
       NamePlacement	      "alternate"
@@ -1354,7 +1319,7 @@ Model {
       BlockType		      Gain
       Name		      "Gr"
       SID		      "10"
-      Position		      [310, 295, 340, 325]
+      Position		      [320, 290, 350, 320]
       ZOrder		      -36
       BackgroundColor	      "green"
       Gain		      "Gr"
@@ -1366,7 +1331,7 @@ Model {
       BlockType		      Ground
       Name		      "Ground"
       SID		      "71"
-      Position		      [1040, 410, 1060, 430]
+      Position		      [1055, 410, 1075, 430]
       ZOrder		      -9
       BackgroundColor	      "darkGreen"
     }
@@ -1434,7 +1399,7 @@ Model {
       BlockType		      TransferFcn
       Name		      "Impianto"
       SID		      "9"
-      Position		      [785, 283, 850, 327]
+      Position		      [790, 287, 850, 323]
       ZOrder		      -44
       BackgroundColor	      "green"
       Numerator		      "num_Gp"
@@ -1683,7 +1648,7 @@ Model {
       Name		      "Sum"
       SID		      "23"
       Ports		      [2, 1]
-      Position		      [360, 300, 380, 320]
+      Position		      [370, 295, 390, 315]
       ZOrder		      -68
       BackgroundColor	      "green"
       ShowName		      off
@@ -1830,15 +1795,6 @@ Model {
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      ZeroOrderHold
-      Name		      "ZOH"
-      SID		      "181"
-      Position		      [525, 290, 560, 320]
-      ZOrder		      4
-      BackgroundColor	      "green"
-      SampleTime	      "Ts"
     }
     Block {
       BlockType		      Scope
@@ -1988,16 +1944,23 @@ Model {
       DstPort		      1
     }
     Line {
+      SrcBlock		      " Switch3"
+      SrcPort		      1
+      Points		      [20, 0; 0, -80]
+      DstBlock		      " Switch6"
+      DstPort		      2
+    }
+    Line {
       SrcBlock		      "Rif_Ramp"
       SrcPort		      1
-      DstBlock		      " Switch1"
+      DstBlock		      " Switch3"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Rif_Gradino"
       SrcPort		      1
-      Points		      [10, 0; 0, 35]
-      DstBlock		      " Switch1"
+      Points		      [15, 0]
+      DstBlock		      " Switch3"
       DstPort		      1
     }
     Line {
@@ -2010,15 +1973,15 @@ Model {
     Line {
       SrcBlock		      "Mux4"
       SrcPort		      1
-      Points		      [25, 0]
-      DstBlock		      " Switch8"
+      Points		      [25, 0; 0, -10]
+      DstBlock		      " Switch5"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Ground"
       SrcPort		      1
       Points		      [0, -25]
-      DstBlock		      " Switch8"
+      DstBlock		      " Switch5"
       DstPort		      2
     }
     Line {
@@ -2038,7 +2001,7 @@ Model {
 	}
 	Branch {
 	  Points		  [0, 55; 70, 0; 0, -35]
-	  DstBlock		  " Switch 0"
+	  DstBlock		  " Switch2"
 	  DstPort		  2
 	}
       }
@@ -2048,25 +2011,25 @@ Model {
       SrcPort		      1
       Points		      [-15, 0]
       Branch {
-	Points			[0, 110]
+	Points			[0, 100]
 	DstBlock		"Bessel LP"
 	DstPort			1
       }
       Branch {
 	Points			[0, -10]
-	DstBlock		" Switch6"
+	DstBlock		" Switch8"
 	DstPort			1
       }
     }
     Line {
       SrcBlock		      "Gf"
       SrcPort		      1
-      Points		      [-35, 0]
+      Points		      [-25, 0]
       DstBlock		      "Sum"
       DstPort		      2
     }
     Line {
-      SrcBlock		      " Switch6"
+      SrcBlock		      " Switch8"
       SrcPort		      1
       DstBlock		      "Gf"
       DstPort		      1
@@ -2074,9 +2037,21 @@ Model {
     Line {
       SrcBlock		      "Bessel LP"
       SrcPort		      1
-      Points		      [-10, 0]
-      DstBlock		      " Switch6"
+      Points		      [-15, 0]
+      DstBlock		      " Switch8"
       DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Gc"
+      SrcPort		      1
+      DstBlock		      "Ga"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      DstBlock		      "Gc"
+      DstPort		      1
     }
     Line {
       SrcBlock		      "Ga"
@@ -2093,17 +2068,17 @@ Model {
       }
     }
     Line {
-      SrcBlock		      " Switch 0"
-      SrcPort		      1
-      DstBlock		      " Switch2"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Ground4"
       SrcPort		      1
-      Points		      [70, 0]
-      DstBlock		      " Switch2"
+      Points		      [80, 0]
+      DstBlock		      " Switch1"
       DstPort		      2
+    }
+    Line {
+      SrcBlock		      " Switch1"
+      SrcPort		      1
+      DstBlock		      " Switch6"
+      DstPort		      1
     }
     Line {
       SrcBlock		      "Integrator"
@@ -2115,13 +2090,28 @@ Model {
 	DstPort			1
       }
       Branch {
-	DstBlock		" Switch 0"
+	DstBlock		" Switch2"
 	DstPort			1
       }
     }
     Line {
-      SrcBlock		      " Switch8"
+      SrcBlock		      " Switch6"
       SrcPort		      1
+      Points		      [0, 0]
+      Branch {
+	DstBlock		"Gr"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -220]
+	DstBlock		"Guadagno stazionario"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      " Switch5"
+      SrcPort		      1
+      Points		      [5, 0]
       DstBlock		      "Mux"
       DstPort		      3
     }
@@ -2129,7 +2119,7 @@ Model {
       Labels		      [0, 0]
       SrcBlock		      "Gdp(s)"
       SrcPort		      1
-      Points		      [60, 0]
+      Points		      [65, 0]
       DstBlock		      "Sum2"
       DstPort		      1
     }
@@ -2151,22 +2141,22 @@ Model {
       SrcBlock		      "Sum5"
       SrcPort		      1
       Points		      [5, 0; 0, -25]
-      DstBlock		      " Switch5"
+      DstBlock		      " Switch7"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Ground3"
       SrcPort		      1
       Points		      [5, 0; 0, 20]
-      DstBlock		      " Switch5"
+      DstBlock		      " Switch7"
       DstPort		      1
     }
     Line {
-      SrcBlock		      " Switch5"
+      SrcBlock		      " Switch7"
       SrcPort		      1
       Points		      [5, 0]
       Branch {
-	Points			[0, -20]
+	Points			[0, -25]
 	DstBlock		"Gda(s)"
 	DstPort			1
       }
@@ -2179,7 +2169,7 @@ Model {
     Line {
       SrcBlock		      " Switch4"
       SrcPort		      1
-      Points		      [0, 10; 25, 0]
+      Points		      [0, 15; 25, 0]
       Branch {
 	Points			[0, -10]
 	DstBlock		"Gdp(s)"
@@ -2194,13 +2184,13 @@ Model {
     Line {
       SrcBlock		      "Ground2"
       SrcPort		      1
-      DstBlock		      " Switch7"
+      DstBlock		      " Switch9"
       DstPort		      1
     }
     Line {
-      SrcBlock		      " Switch7"
+      SrcBlock		      " Switch9"
       SrcPort		      1
-      Points		      [-140, 0]
+      Points		      [-145, 0]
       Branch {
 	Points			[-25, 0]
 	DstBlock		"Sum3"
@@ -2256,8 +2246,7 @@ Model {
     Line {
       SrcBlock		      "Sum7"
       SrcPort		      1
-      Points		      [0, -15]
-      DstBlock		      " Switch7"
+      DstBlock		      " Switch9"
       DstPort		      2
     }
     Line {
@@ -2282,9 +2271,15 @@ Model {
       DstPort		      3
     }
     Line {
+      SrcBlock		      "Ground1"
+      SrcPort		      1
+      Points		      [10, 0; 0, 20]
+      DstBlock		      " Switch4"
+      DstPort		      1
+    }
+    Line {
       SrcBlock		      "Sum6"
       SrcPort		      1
-      Points		      [10, 0; 0, 5]
       DstBlock		      " Switch4"
       DstPort		      2
     }
@@ -2344,7 +2339,6 @@ Model {
     Line {
       SrcBlock		      "Gda(s)"
       SrcPort		      1
-      Points		      [0, -5]
       DstBlock		      "Sum1"
       DstPort		      1
     }
@@ -2407,59 +2401,13 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Discrete TF"
-      SrcPort		      1
-      DstBlock		      "ZOH"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "ZOH"
-      SrcPort		      1
-      DstBlock		      "Ga"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Sum"
-      SrcPort		      1
-      DstBlock		      "Discrete TF"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      " Switch2"
       SrcPort		      1
-      DstBlock		      " Switch3"
+      DstBlock		      " Switch1"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      " Switch1"
-      SrcPort		      1
-      Points		      [25, 0; 0, -75]
-      DstBlock		      " Switch3"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Ground1"
-      SrcPort		      1
-      Points		      [10, 0; 0, 25]
-      DstBlock		      " Switch4"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      " Switch3"
-      SrcPort		      1
-      Points		      [10, 0]
-      Branch {
-	Points			[-15, 0; 0, -225]
-	DstBlock		"Guadagno stazionario"
-	DstPort			1
-      }
-      Branch {
-	DstBlock		"Gr"
-	DstPort			1
-      }
     }
     Annotation {
-      Name		      "SISTEMA DI CONTROLLO  DIGITALE\nTipaldi Giuseppe\n\n...stay angry stay foolish\n:d"
+      Name		      "SISTEMA DI CONTROLLO ANALOGICO\nTipaldi Giuseppe\n\n...stay angry stay foolish\n:d"
       Position		      [132, 33]
     }
     Annotation {
