@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.134"
+    ComputedModelVersion    "1.137"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 19 10:58:31 2013"
-  RTWModifiedTimeStamp	  293539119
-  ModelVersionFormat	  "1.%<AutoIncrement:134>"
+  LastModifiedDate	  "Sun Jun 23 13:05:08 2013"
+  RTWModifiedTimeStamp	  293893497
+  ModelVersionFormat	  "1.%<AutoIncrement:137>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -820,7 +820,7 @@ Model {
   }
   System {
     Name		    "Simulatore_digitale_5"
-    Location		    [0, 55, 1440, 868]
+    Location		    [1, 87, 1441, 900]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -834,7 +834,7 @@ Model {
     ShowPageBoundaries	    on
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "192"
+    SIDHighWatermark	    "196"
     Block {
       BlockType		      Reference
       Name		      " Switch 0"
@@ -881,6 +881,28 @@ Model {
     }
     Block {
       BlockType		      Reference
+      Name		      " Switch10"
+      SID		      "195"
+      Ports		      [2, 1]
+      Position		      [1120, 107, 1150, 143]
+      LibraryVersion	      "1.236"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      sw		      "1"
+      action		      "0"
+      varsize		      off
+    }
+    Block {
+      BlockType		      Reference
       Name		      " Switch2"
       SID		      "186"
       Ports		      [2, 1]
@@ -907,7 +929,7 @@ Model {
       Name		      " Switch3"
       SID		      "187"
       Ports		      [2, 1]
-      Position		      [255, 292, 285, 328]
+      Position		      [255, 287, 285, 323]
       LibraryVersion	      "1.236"
       SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
       SourceType	      "Manual Switch"
@@ -1253,7 +1275,7 @@ Model {
       BlockType		      Constant
       Name		      "EXX"
       SID		      "154"
-      Position		      [1035, 150, 1065, 180]
+      Position		      [1035, 100, 1065, 130]
       ZOrder		      -4
       BackgroundColor	      "red"
       Value		      "-abs(e_ds)"
@@ -1262,7 +1284,7 @@ Model {
       BlockType		      Constant
       Name		      "EXXX"
       SID		      "151"
-      Position		      [1035, 90, 1065, 120]
+      Position		      [1035, 40, 1065, 70]
       ZOrder		      -4
       BackgroundColor	      "red"
       Value		      "-abs(e_r)"
@@ -1354,7 +1376,7 @@ Model {
       BlockType		      Gain
       Name		      "Gr"
       SID		      "10"
-      Position		      [310, 295, 340, 325]
+      Position		      [310, 290, 340, 320]
       ZOrder		      -36
       BackgroundColor	      "green"
       Gain		      "Gr"
@@ -1404,6 +1426,14 @@ Model {
       ZOrder		      -9
       BackgroundColor	      "cyan"
       NamePlacement	      "alternate"
+    }
+    Block {
+      BlockType		      Ground
+      Name		      "Ground5"
+      SID		      "196"
+      Position		      [1040, 160, 1060, 180]
+      ZOrder		      -9
+      BackgroundColor	      "red"
     }
     Block {
       BlockType		      Gain
@@ -1516,12 +1546,24 @@ Model {
       BlockType		      Mux
       Name		      "Mux1"
       SID		      "145"
-      Ports		      [3, 1]
-      Position		      [1105, 176, 1110, 214]
+      Ports		      [2, 1]
+      Position		      [1120, 176, 1125, 214]
       ZOrder		      -49
       ForegroundColor	      "red"
       ShowName		      off
-      Inputs		      "3"
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux2"
+      SID		      "193"
+      Ports		      [2, 1]
+      Position		      [1085, 96, 1090, 134]
+      ZOrder		      -49
+      ForegroundColor	      "red"
+      ShowName		      off
+      Inputs		      "2"
       DisplayOption	      "bar"
     }
     Block {
@@ -1683,7 +1725,7 @@ Model {
       Name		      "Sum"
       SID		      "23"
       Ports		      [2, 1]
-      Position		      [360, 300, 380, 320]
+      Position		      [360, 295, 380, 315]
       ZOrder		      -68
       BackgroundColor	      "green"
       ShowName		      off
@@ -2375,7 +2417,7 @@ Model {
       SrcPort		      1
       Points		      [10, 0]
       Branch {
-	Points			[0, 35]
+	Points			[10, 0; 0, 35]
 	DstBlock		"Output Error"
 	DstPort			1
       }
@@ -2390,21 +2432,7 @@ Model {
       SrcPort		      1
       Points		      [8, 0; 0, 120]
       DstBlock		      "Mux1"
-      DstPort		      3
-    }
-    Line {
-      SrcBlock		      "EXX"
-      SrcPort		      1
-      Points		      [7, 0; 0, 30]
-      DstBlock		      "Mux1"
       DstPort		      2
-    }
-    Line {
-      SrcBlock		      "EXXX"
-      SrcPort		      1
-      Points		      [7, 0; 0, 2; 8, 0; 0, 78]
-      DstBlock		      "Mux1"
-      DstPort		      1
     }
     Line {
       SrcBlock		      "Discrete TF"
@@ -2433,7 +2461,7 @@ Model {
     Line {
       SrcBlock		      " Switch1"
       SrcPort		      1
-      Points		      [25, 0; 0, -75]
+      Points		      [25, 0; 0, -80]
       DstBlock		      " Switch3"
       DstPort		      2
     }
@@ -2447,16 +2475,48 @@ Model {
     Line {
       SrcBlock		      " Switch3"
       SrcPort		      1
-      Points		      [10, 0]
-      Branch {
-	Points			[-15, 0; 0, -225]
-	DstBlock		"Guadagno stazionario"
-	DstPort			1
-      }
+      Points		      [0, 0]
       Branch {
 	DstBlock		"Gr"
 	DstPort			1
       }
+      Branch {
+	Points			[0, -220]
+	DstBlock		"Guadagno stazionario"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "EXXX"
+      SrcPort		      1
+      DstBlock		      "Mux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "EXX"
+      SrcPort		      1
+      DstBlock		      "Mux2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Ground5"
+      SrcPort		      1
+      Points		      [30, 0; 0, -35]
+      DstBlock		      " Switch10"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Mux2"
+      SrcPort		      1
+      DstBlock		      " Switch10"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      " Switch10"
+      SrcPort		      1
+      Points		      [10, 0; 0, 40; -60, 0]
+      DstBlock		      "Mux1"
+      DstPort		      1
     }
     Annotation {
       Name		      "SISTEMA DI CONTROLLO  DIGITALE\nTipaldi Giuseppe\n\n...stay angry stay foolish\n:d"

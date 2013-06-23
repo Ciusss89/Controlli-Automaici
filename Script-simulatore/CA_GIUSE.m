@@ -1,14 +1,12 @@
 %% CONTROLLI AUTOMATICI,  revisione 5, 7/6/2013. 
 %  AUTORI: Andrea Rizzo - Giuseppe Tipaldi
 %  IMPOSTAZIONE GRAFICA E ULTIME MODIFICHE A OPERA DI GIUSEPPE.
-%  PER USARE IL FILTRO ANTI ALIASING BISOGNA RECUPERARE ALTRA FASE (ALTRI 25 ALMENO)
-%  OLTRE QUELLA NECESSARIA A STABILIZZARE IL SISTEMA.
 %  PRENDI VISIONE DEL FILE ngridcustom.m PER RISOLVERE EVENTUALI ANOMALIE
 %  DI NICHOLS.
 
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
-    day=date; fprintf('r5.0 Giuseppe Tipaldi %s \r',day);
+    fprintf('r5.0 Giuseppe Tipaldi %s \r',date);
             
 %% DATI PRINCIPALI DEL PROBLEMA:
     % Blocchi costituienti il tipo di controllore.
@@ -110,10 +108,9 @@
     % A meno di stravolgimenti della struttura del controllore, questo è il
     % solo dei 4 ipotetici kc che non cambia espressione di calcolo.
     
-    h_r= 1 ;   % Indicare il tipo di sistema scelto per il riferimento.
-    u_r=-inf;  % NO EDIT
-
-    kc_r=0;    % NO EDIT
+    h_r= 1 ;   % Indicare il tipo di sistema scelto per la specifica sul riferimento.
+   
+    u_r=-inf; kc_r=0;  % NO EDIT
     if e_r~=0     
         if h_r == 0
         	kc_r = abs( (R_0*Kd^2-Kd*e_r)/(e_r*kp*Ga) );
@@ -235,7 +232,7 @@
 % Wceff 
 %     Letta sul grafico di nichols, pulsazione per cui |Lz|=0db
 
-    Rd=1; Ri=1; Rpi=1; Glp=1  % NO EDIT
+    Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
     kc=kc+0.0*kc;   
@@ -273,26 +270,25 @@
     normi_pi=0;
        
 %% [ 5.0 ] Elaborazione & Progetto del Sistema Analogico 
-% Si procede alla stabilizzazione e al progetto delle reti. Conviene
-% stabilire inizialmente quanta fase si deve recuperare, e valutare in un
-% secondo momomento il guadagno in eccesso.
-% La stabilità e il rispetto delle specifche si raggiunge inserendo delle
-% reti dinamiche e bilanciandone il loro contributo nella funzione del
-% controllore.
-    
-    %                    ------ WARING ------- 
+
+%                    ------ WARING ------- 
     % Quando cambiare segno al Kc:
     % Nichols è girato al contratio o non ruota corettamente attorno al punto critico
     % La fase di L risulta posiva 
     Kc_v = kc;
     %Kc_v=-kc; 
     
-    %Il sistema risulta stabile -N=Pol, questo non sarà mai vero 
-    % (perchè se lo fosse il sistema sarebbe già stabile), quindi il
-    % sistema risulta stabilizzabile mediante l'aggiunta di reti dinamiche.
-    % N rotazioni attorno il punto critico.
-    % Pol poli a parte reale positiva della funzione L.
-    
+    % Criterio di Nyquest :
+    %     Ipotesi per avere N ben definito : il digramma di nyquist non
+    %     taglia in -1,0.
+    %     *N   Numero di rotazioni compiute in SENSO ORARIO ( se kc positivo )
+    %          dalla funzione L intorno al punto critico. Per kc negativi le
+    %          rotazioni si contano come negative.
+    %     *PiL Numero di poli instabili ( parte reale positiva) della
+    %          funzione L
+    %     Riusciamo a stabilizzare un sistema mediante l'uso di reti
+    %     dinamiche correttive se :
+    %                       N=-PiL
 %% [ 5.1 ] Rete correttive 
     
     % Rete anticipatrice a rucupero fase: 
@@ -381,7 +377,7 @@
     
     
 %% [ 9.0 ] Filtro antialiasing :
-% Frequenza di taglio del filtro posta un'ottava prima della pulsazione effettiva.
+% Frequenza di taglio del filtro posta poco prima della pulsazione effettiva fc.
 % Usando un filtro del secondo ordine, sul disturbo si giunge con
 % un'attenuazione di 12 db su ottava. Il filtro usato è un filtro BESSEL.
 	lp_bssl_d=1; lp_bssl_n=1; AA_order=2; % NO EDIT
@@ -398,7 +394,7 @@
             if ( pulse_d < 0)
                 fprintf('Caso strano, ommetto il progetto.\n')
             else
-                Pulse_AAF=ceil((pulse_d/2)); [lp_bssl_n,lp_bssl_d]=besself(AA_order,Pulse_AAF);
+                Pulse_AAF=ceil((pulse_d*0.8)); [lp_bssl_n,lp_bssl_d]=besself(AA_order,Pulse_AAF);
                 Glp = tf(lp_bssl_n,lp_bssl_d);
                 close all
                 figure('Name',' Comportamento del filtro:'); freqs(lp_bssl_n,lp_bssl_d);
