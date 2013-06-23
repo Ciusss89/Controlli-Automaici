@@ -31,8 +31,8 @@ gain1=20*log10(abs(g1));
 % phase=rem(angle(g)/pi*180+360,360);
 % phase1=rem(angle(g1)/pi*180+360,360);   
 
- phase=rem(angle(g)/pi*180+360,360)-360;
- phase1=rem(angle(g1)/pi*180+360,360)-360; 
+phase=rem(angle(g)/pi*180+360,360)-360;
+phase1=rem(angle(g1)/pi*180+360,360)-360; 
 
 plot(phase,gain,'-b')
 hold on

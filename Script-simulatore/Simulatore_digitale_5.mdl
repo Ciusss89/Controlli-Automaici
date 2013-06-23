@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.137"
+    ComputedModelVersion    "1.139"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jun 23 13:05:08 2013"
-  RTWModifiedTimeStamp	  293893497
-  ModelVersionFormat	  "1.%<AutoIncrement:137>"
+  LastModifiedDate	  "Sun Jun 23 22:42:33 2013"
+  RTWModifiedTimeStamp	  293928139
+  ModelVersionFormat	  "1.%<AutoIncrement:139>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -920,7 +920,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -1010,7 +1010,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -1278,7 +1278,7 @@ Model {
       Position		      [1035, 100, 1065, 130]
       ZOrder		      -4
       BackgroundColor	      "red"
-      Value		      "-abs(e_ds)"
+      Value		      "-e_ds"
     }
     Block {
       BlockType		      Constant
@@ -1287,7 +1287,7 @@ Model {
       Position		      [1035, 40, 1065, 70]
       ZOrder		      -4
       BackgroundColor	      "red"
-      Value		      "-abs(e_r)"
+      Value		      "e_ds"
     }
     Block {
       BlockType		      Gain
@@ -1587,7 +1587,7 @@ Model {
       ZOrder		      -51
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [5, 88, 1285, 766]
+      Location		      [2, 88, 1282, 766]
       Open		      off
       NumInputPorts	      "1"
       List {
@@ -1609,7 +1609,7 @@ Model {
       ZOrder		      -52
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [5, 129, 1283, 834]
+      Location		      [2, 121, 1280, 826]
       Open		      off
       NumInputPorts	      "1"
       List {
@@ -1941,7 +1941,7 @@ Model {
       BlockRotation	      270
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [2, 88, 1442, 899]
+      Location		      [2, 88, 1440, 898]
       Open		      off
       NumInputPorts	      "1"
       List {
@@ -2014,12 +2014,12 @@ Model {
       SrcPort		      1
       Points		      [0, -10; 10, 0]
       Branch {
-	DstBlock		"Output "
+	Points			[0, 55]
+	DstBlock		"Save to Workspace"
 	DstPort			1
       }
       Branch {
-	Points			[0, 55]
-	DstBlock		"Save to Workspace"
+	DstBlock		"Output "
 	DstPort			1
       }
     }

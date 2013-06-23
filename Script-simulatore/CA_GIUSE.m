@@ -7,6 +7,7 @@
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
     fprintf('r5.0 Giuseppe Tipaldi %s \r',date);
+    fprintf('Setup_prova SETTEMBRE 2012 \r');
             
 %% DATI PRINCIPALI DEL PROBLEMA:
     % Blocchi costituienti il tipo di controllore.
@@ -16,8 +17,8 @@
     p=    0;  % n.ro di poli nell'origine dell'impianto (Funzione Gp). 
     Kd = 0; 
     Gs = 0e-0; 
-    Ga = 0e-3; 
-    Gr = 0e0; 
+    Ga = 0e3; 
+    Gr = 1e0; 
     Gf = 1/(Kd*Gs);
     fprintf(' Poli nell''origine %d\n* Guadagno Kd %.3g\n* Funzione Sensore %.3g\n* Funzione Attenuatore %.3g\n* Funzione Gr %.3g\n* Funzione Gf %.3g\n\n*',p,Kd,Gs,Ga,Gr,Gf);
     
@@ -36,9 +37,9 @@
     [num_Gdp,den_Gdp]=tfdata(Gdp_s,'v');
     
     % Specificare i paramentri della risposta al gradino.
-    over = 0.1;   % Overshoot.
-    tr = 0;    % Rise Time.
-    ts = 0;      % Settling Time.
+    over = 0.11;   % Overshoot.
+    tr = 0.0;    % Rise Time.
+    ts = 0.0;      % Settling Time.
     aph = 0.05;    % Volore % di settling.
     % Calcolo lo Smorzamento
     eps = (abs(log(over)))/(sqrt((pi^2)+(log(over))^2));
@@ -47,16 +48,16 @@
     fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n\n*',over*100,tr,ts,aph,eps,tr_smo,ts_smo);
     
     % Specificare gli errori tollerati a regime:
-    e_r  = 0e-1;   % Errore quando agisce il riferimento.
+    e_r  = 0e-4;   % Errore quando agisce il riferimento.
     e_da = 0e-2;   % Errore quando agisce il disturbo sull'attuatore.
     e_dp = 0e-4;   % Errore quando agisce il disturbo sull'impianto.
     e_ds = 0e-4;   % Errore quando agisce il disturbo sul sensore.
-    fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_dp);
+    fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_ds);
         
     % Gradino unitario [ R_u ] || Rampa r(t) [R_0]
     R_0=1;   % Rampa r(t)=t, esempio se r(t)=t/4  -> R_O=0.25
     R_u=1;   % Gradino unitario, valore 1.  
-    R=R_0;   % Specificare quale dei precedenti riferimenti usare.
+    R=R_u;   % Specificare quale dei precedenti riferimenti usare.
     
 %% Disturbi che agiscono sul sistema:
 % Ricorda che per dsturbi polinomiali Gp=kp/s^p e Gc/s^u. 
@@ -77,9 +78,9 @@
     
         
      % Impianto [ dp ]
-     Dp_c = 00e-3;      % Inserire qui il valore se risulta una COSTANTE.
+     Dp_c = 0e-4;      % Inserire qui il valore se risulta una COSTANTE.
      Dp_r = 00e-1;      % Inserire qui il valore se risulta una RAMPA.
-     a_dp = 2e-2;         % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+     a_dp = 0e-2;         % Inserire qui l'ampiezza distubo se SINUSOIDALE.
      Pulse_dp =0e-3;    % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_p = 0; % La Wl letta tramite maschera su carta semiLog
@@ -90,7 +91,7 @@
     % Sensore [ ds ]
     Ds_c = 00e-3;      % Inserire qui il valore se risulta una COSTANTE. 
     Ds_r = 00e-1;      % Inserire qui il valore se risulta una RAMPA.
-    a_ds = 0e-1;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+    a_ds = 0e-2;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
     Pulse_ds = 0;      % Inserire qui la w del disturbo se SINUSOIDALE.
     % Se determinati in fase traduzione delle secifiche inserire:
         w_h_letta_s = 0; % La Wl letta tramite maschera su carta semiLog
@@ -108,14 +109,14 @@
     % A meno di stravolgimenti della struttura del controllore, questo è il
     % solo dei 4 ipotetici kc che non cambia espressione di calcolo.
     
-    h_r= 1 ;   % Indicare il tipo di sistema scelto per la specifica sul riferimento.
+    h_r= 0 ;   % Indicare il tipo di sistema scelto per la specifica sul riferimento.
    
     u_r=-inf; kc_r=0;  % NO EDIT
     if e_r~=0     
         if h_r == 0
-        	kc_r = abs( (R_0*Kd^2-Kd*e_r)/(e_r*kp*Ga) );
+        	kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga+Kd) );
         elseif h_r == 1 
-            kc_r = abs( (R_0*Kd^2) / (e_r*kp*Ga) );
+            kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
         else
             kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
         end
@@ -235,8 +236,8 @@
     Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
-    kc=kc+0.0*kc;   
-    wprog=1.3;
+    kc=kc+kc*0.0;   
+    wprog=1;
     Wceff=wprog; %Wceff=0; 
     
     fprintf('Progetto:');
@@ -267,7 +268,7 @@
     % Uso: posso inserire uno zero, per ogni polo nell'origine del
     % controllore, solo se u>0.
     % Inserndo il valore di nomalizzazione diverso da 0, verrà abilitata la rete.
-    normi_pi=0;
+    norm_Pi=0;
        
 %% [ 5.0 ] Elaborazione & Progetto del Sistema Analogico 
 
@@ -328,8 +329,8 @@
     end
     
     % Rete pi 
-    if ( u>0 && norm_pi ~=0 )   
-        z_pi=wprog/normi_pi; Rpi=(1+(s/z_pi));
+    if ( u>0 && norm_Pi ~=0 )   
+        z_pi=wprog/norm_Pi; Rpi=(1+(s/z_pi));
         %normi_pi2=0; z2_pi=wprog/normi_pi2; Rpi=Rpi*(1+(s/z2_pi));  
         fprintf('Rete proporzionale integrativa:');
         fprintf('\n\tZero: %.5g.\n',z_pi);
@@ -387,7 +388,7 @@
     fprintf('\n\t W_sempling %.3f rad/s.\n\t W_ds %.3f rad/s.\n',Pulse_sempling,Pulse_ds);
     
     if Pulse_sempling > (2*Pulse_ds)
-        fprintf('Non si rileva utile un filtro antialising, il sistema è ben campionato.\n')
+        fprintf('Non si rileva utile un filtro antialising, sistema ben campionato.\n')
     else
         if FAA_ON == 1
             pulse_d=(Pulse_sempling-Pulse_ds);
@@ -405,7 +406,7 @@
                 Graph2(Lz,Gcz,Tp,Sp);
             end
         else
-            fprintf('Filtro tecnicamente necessario ma non � stato abilitato il suo calcolo, FAA_ON=0.\n')
+            fprintf('Filtro necessario, calcolo non abilitato. FAA_ON=0.\n')
         end
     end
 
@@ -417,7 +418,7 @@
     sig_gen_amp= 1;
     sig_gen_freq= 0.5;
     
-close all;
+%close all;
 
 %% [ 12.0 ] Output della simulazione :  
 % Importa nello spazione di lavoro di matlab output generato da simulink.
