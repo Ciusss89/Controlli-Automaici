@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.130"
+    ComputedModelVersion    "1.131"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jun 23 13:07:38 2013"
-  RTWModifiedTimeStamp	  293893651
-  ModelVersionFormat	  "1.%<AutoIncrement:130>"
+  LastModifiedDate	  "Mon Jun 24 22:34:38 2013"
+  RTWModifiedTimeStamp	  294014061
+  ModelVersionFormat	  "1.%<AutoIncrement:131>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -865,7 +865,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -931,7 +931,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -953,7 +953,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -1552,7 +1552,7 @@ Model {
       ZOrder		      -51
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [5, 88, 1285, 766]
+      Location		      [2, 88, 1282, 766]
       Open		      off
       NumInputPorts	      "1"
       List {
