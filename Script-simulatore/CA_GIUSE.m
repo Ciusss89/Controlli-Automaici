@@ -1,4 +1,4 @@
-%% CONTROLLI AUTOMATICI,  revisione 5.1, 22/7/2013. 
+%% CONTROLLI AUTOMATICI,  revisione 5, 7/6/2013. 
 %  AUTORI: Andrea Rizzo - Giuseppe Tipaldi
 %  IMPOSTAZIONE GRAFICA E ULTIME MODIFICHE A OPERA DI GIUSEPPE.
 %  PRENDI VISIONE DEL FILE ngridcustom.m PER RISOLVERE EVENTUALI ANOMALIE
@@ -6,8 +6,8 @@
 
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
-    fprintf('r5.0 Giuseppe Tipaldi %s \r',date);
-    fprintf('Setup_ 0.');
+    fprintf('r5.1 Giuseppe Tipaldi %s \r',date);
+    fprintf('Setup_ home work 5.');
             
 %% DATI PRINCIPALI DEL PROBLEMA:
     % Blocchi costituienti il tipo di controllore.
@@ -18,40 +18,40 @@
     Kd = 0; 
     Gs = 0.5e-0; 
     Ga = 0.1e0; 
-    Gr = 0e0; 
+    Gr = 1e0; 
     Gf = 1/(Kd*Gs);
     fprintf(' Poli nell''origine %d\n* Guadagno Kd %.3g\n* Funzione Sensore %.3g\n* Funzione Attenuatore %.3g\n* Funzione Gr %.3g\n* Funzione Gf %.3g\n\n*',p,Kd,Gs,Ga,Gr,Gf);
     
     % Specificare la costante di guadagno del blocco Gda. Se diversa da una
     % costante, porre a 0 Gda, e introdurre la funzione Gda_s.
     % Nel caso in cui non risulti specificata porre Gda=1.
-    Gda = 0; 
+    Gda = 1; 
     Gda_s = s*0;
     [num_Gda,den_Gda]=tfdata(Gda_s,'v');
 
     % Specificare la costante di guadagno del blocco Gdp. Se diversa da una
     % costante, porre a 0 Gdp, e introdurre la funzione Gdp_s.
     % Nel caso in cui non risulti specificata porre Gdp=1.
-    Gdp = 0;
+    Gdp = 1;
     Gdp_s = s*0;
     [num_Gdp,den_Gdp]=tfdata(Gdp_s,'v');
     
     % Specificare i paramentri della risposta al gradino.
-    over = 0.0;   % Overshoot.
-    tr = 0;    % Rise Time.
-    ts = 0;      % Settling Time.
+    over = 0.15;   % Overshoot.
+    tr = 2;    % Rise Time.
+    ts = 4;      % Settling Time.
     aph = 0.05;    % Volore % di settling.
     % Calcolo lo Smorzamento
     eps = (abs(log(over)))/(sqrt((pi^2)+(log(over))^2));
-    tr_smo = 0;   % Rise Time corrispondente allo smorzamento
-    ts_smo = 0;   % Settling Time corrispondente allo smorzamento 
+    tr_smo = 1.91;   % Rise Time corrispondente allo smorzamento
+    ts_smo = 4.6;   % Settling Time corrispondente allo smorzamento 
     fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n\n*',over*100,tr,ts,aph,eps,tr_smo,ts_smo);
     
     % Specificare gli errori tollerati a regime:
-    e_r  = 0e-1;   % Errore quando agisce il riferimento.
-    e_da = 0e-3;   % Errore quando agisce il disturbo sull'attuatore.
-    e_dp = 0e-2;   % Errore quando agisce il disturbo sull'impianto.
-    e_ds = 0e-4;   % Errore quando agisce il disturbo sul sensore.
+    e_r  = 12e-1;   % Errore quando agisce il riferimento.
+    e_da = 1.6e-3;   % Errore quando agisce il disturbo sull'attuatore.
+    e_dp = 1e-2;   % Errore quando agisce il disturbo sull'impianto.
+    e_ds = 0.20e-4;   % Errore quando agisce il disturbo sul sensore.
     fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_ds);
         
     % Gradino unitario [ R_u ] || Rampa r(t) [R_0]
@@ -68,13 +68,13 @@
 
      % Attuatore [ da ]
      Da_c = 0e-3;     % Inserire qui il valore se risulta una COSTANTE.
-     Da_r = 0e-3;      % Inserire qui il valore se risulta una RAMPA.          
+     Da_r = 1.5e-3;      % Inserire qui il valore se risulta una RAMPA.          
      a_da = 0;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
      Pulse_da = 0;      % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_a = 0;     % La Wl letta tramite maschera su carta semiLog.
-        kc_a = abs(0);       % Se calcolato specificare il valore. 
-        u_a = -inf;          % Se determinato specificare il valore.
+        kc_a = abs(37.5);       % Se calcolato specificare il valore. 
+        u_a = 1;          % Se determinato specificare il valore.
     
         
      % Impianto [ dp ]
@@ -84,8 +84,8 @@
      Pulse_dp =0e-3;    % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_p = 0; % La Wl letta tramite maschera su carta semiLog
-        kc_p = abs(0);      % Se calcolato specificare il valore.
-        u_p = -inf;         % Se determinato specificare il valore.
+        kc_p = abs(22.33);      % Se calcolato specificare il valore.
+        u_p = 1;         % Se determinato specificare il valore.
     
         
     % Sensore [ ds ]
@@ -240,12 +240,13 @@
     Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
-    kc=kc+kc*0.0;   
-    wprog=0e0;
-    Wceff=wprog; %Wceff=2.2; 
+    kc=kc+kc*0.3;   
+    wprog=2.2e0;
+     
+    
     
     fprintf('Progetto:');
-    fprintf('\n\tkc = %.3f.\n\th=%1.0f.\n\tu=%1.0f.\n\tWc = %.2f. rad/s.\n\tWceff = %.2f. rad/s.\n',kc,h,u,wprog,Wceff);
+    fprintf('\n\tkc = %.3f.\n\th=%1.0f.\n\tu=%1.0f.\n\tWc = %.2f. rad/s.\n',kc,h,u,wprog);
   
     % Reti derivative, introduce un anticipo di fase. L'entità della fase 
     % recuperata dipende dal volere di md. NON E' OPPORTUNO UTILIZZARE RETI
@@ -255,7 +256,7 @@
     
     % Definendo un md diverso da 1, viene automaticamente determinata la
     % rete che garantisce il miglior recupero di fase. 
-    md=1; md2=1; %12
+    md=4; md2=6; %12
                      % Valore md, e fase massima recuperata :
     % Md: 2 Fase: 19.5 | Md: 4 Fase: 36.9 | Md: 6 Fase: 45.6 | Md: 8 Fase: 51.1 
     % Md: 10 Fase: 54.9 | Md: 12 Fase: 57.8 | Md: 14 Fase: 60.1 | Md: 16 Fase: 61.9
@@ -367,10 +368,11 @@
 % Nella parte seguente bisogna specificare i parametri per il controllore
 % digitale. Il tempo di sampling (Ts) conviene lasciarlo a 0.1, per avere una
 % perdita di fase minima. 
+    [Gm,Pm,Wcg,Wcp]=margin(L); Wceff=Wcp;
     Ts=0.1/(Wceff); [Gcz,Lz]=TDmode(Ts,Glp,Gc,Ga,Gp,Gs,Gf);
     %GRAFICI: In rosso i tratti relativi al tempo discreto.
     [num_Gcz,den_Gcz]=Graph2(Lz,Gcz,Tp,Sp);
-    
+         
     
 %% [ 8.0 ] Paramentri di simulazione per simulink :
 % Generalmente non si ha necessità di modificare questo paragrafo, tranne
@@ -407,15 +409,19 @@
                 % L'uso del filtro, impone il ricalcolo della funzione L, e dei
                 % grafici. CI SI ASPETTA UNA PERDITA DI FASE.
                 L=Glp*Gc*Ga*Gp*Gs*Gf; Hzp = zpk(L); [Gcz,Lz]=TDmode(Ts,Glp,Gc,Ga,Gp,Gs,Gf);
-                Graph2(Lz,Gcz,Tp,Sp);
+                Graph2(Lz,Gcz,Tp,Sp); [Gm,Pm,Wcg,Wcp]=margin(Lz);
             end
         else
             fprintf('Filtro necessario, calcolo non abilitato. FAA_ON=0.\n')
         end
     end
 
+%% [ 10.0 ] Indcatori stabilità :   
+
+   fprintf('Indicatori di stabilita: \n\t Margine di GUADAGNO Gm=%.3g dB, alla pulsazione Wgm=%.3g rad/s \n\t Margine di FASE Pm=%.3g , alla pulsazione Wpm=%.3g rad/s \n',Gm,Wcg,Pm,Wcp);
+
    
-%% [ 10.0 ] Generazione segnali :  
+%% [ 11.0 ] Generazione segnali :  
 % Blocco dedicato alla generazione di riferimenti particolari, inserire
 % nelle variabili sig_gen_amp e sin_gen_freq, ampiezza e frequenza
 % desiderate.

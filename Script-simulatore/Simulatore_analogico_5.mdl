@@ -37,8 +37,8 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jun 24 22:34:38 2013"
-  RTWModifiedTimeStamp	  294014061
+  LastModifiedDate	  "Tue Jun 25 11:44:28 2013"
+  RTWModifiedTimeStamp	  294061444
   ModelVersionFormat	  "1.%<AutoIncrement:131>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
@@ -788,7 +788,7 @@ Model {
   }
   System {
     Name		    "Simulatore_analogico_5"
-    Location		    [72, 87, 1368, 1087]
+    Location		    [71, 55, 1367, 1055]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -931,7 +931,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "0"
+      sw		      "1"
       action		      "0"
       varsize		      off
     }
@@ -1233,7 +1233,7 @@ Model {
       Position		      [1035, 100, 1065, 130]
       ZOrder		      -4
       BackgroundColor	      "red"
-      Value		      "-abs(e_ds)"
+      Value		      "-e_ds"
     }
     Block {
       BlockType		      Constant
@@ -1242,7 +1242,7 @@ Model {
       Position		      [1035, 40, 1065, 70]
       ZOrder		      -4
       BackgroundColor	      "red"
-      Value		      "-abs(e_r)"
+      Value		      "e_ds"
     }
     Block {
       BlockType		      Gain
@@ -1446,7 +1446,7 @@ Model {
       BackgroundColor	      "lightBlue"
       NamePlacement	      "alternate"
       Floating		      off
-      Location		      [2, 88, 1280, 767]
+      Location		      [2, 88, 1280, 766]
       Open		      off
       NumInputPorts	      "1"
       List {
@@ -1552,16 +1552,16 @@ Model {
       ZOrder		      -51
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [2, 88, 1282, 766]
+      Location		      [6, 84, 1286, 762]
       Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      TimeRange		      "1.6"
-      YMin		      "-3.580716253443526e+244"
-      YMax		      "-3.80716253443527e+243"
+      TimeRange		      "8.493799158917058"
+      YMin		      "0.9341368227731863"
+      YMax		      "1.161792164064891"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
@@ -1574,7 +1574,7 @@ Model {
       ZOrder		      -52
       BackgroundColor	      "lightBlue"
       Floating		      off
-      Location		      [5, 129, 1283, 834]
+      Location		      [2, 88, 1280, 766]
       Open		      off
       NumInputPorts	      "1"
       List {
