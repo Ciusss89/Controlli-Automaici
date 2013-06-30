@@ -7,7 +7,7 @@
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
     fprintf('r5.1 Giuseppe Tipaldi %s \r',date);
-    fprintf('Setup_ home work 5.');
+    fprintf('Setup_ \n');
             
 %% DATI PRINCIPALI DEL PROBLEMA:
     % Blocchi costituienti il tipo di controllore.
@@ -16,8 +16,8 @@
     fprintf('******************************************************\n*');
     p  = 0;  % n.ro di poli nell'origine dell'impianto (Funzione Gp). 
     Kd = 0; 
-    Gs = 0.5e-0; 
-    Ga = 0.1e0; 
+    Gs = 0e-0; 
+    Ga = 0.e0; 
     Gr = 1e0; 
     Gf = 1/(Kd*Gs);
     fprintf(' Poli nell''origine %d\n* Guadagno Kd %.3g\n* Funzione Sensore %.3g\n* Funzione Attenuatore %.3g\n* Funzione Gr %.3g\n* Funzione Gf %.3g\n\n*',p,Kd,Gs,Ga,Gr,Gf);
@@ -26,7 +26,7 @@
     % costante, porre a 0 Gda, e introdurre la funzione Gda_s.
     % Nel caso in cui non risulti specificata porre Gda=1.
     Gda = 1; 
-    Gda_s = s*0;
+    Gda_s = 0*s;
     [num_Gda,den_Gda]=tfdata(Gda_s,'v');
 
     % Specificare la costante di guadagno del blocco Gdp. Se diversa da una
@@ -37,64 +37,64 @@
     [num_Gdp,den_Gdp]=tfdata(Gdp_s,'v');
     
     % Specificare i paramentri della risposta al gradino.
-    over = 0.15;   % Overshoot.
-    tr = 2;    % Rise Time.
-    ts = 4;      % Settling Time.
+    over = 0.0;   % Overshoot.
+    tr = 0;    % Rise Time.
+    ts = 0;      % Settling Time.
     aph = 0.05;    % Volore % di settling.
     % Calcolo lo Smorzamento
     eps = (abs(log(over)))/(sqrt((pi^2)+(log(over))^2));
-    tr_smo = 1.91;   % Rise Time corrispondente allo smorzamento
-    ts_smo = 4.6;   % Settling Time corrispondente allo smorzamento 
+    tr_smo = 0;   % Rise Time corrispondente allo smorzamento
+    ts_smo = 0;   % Settling Time corrispondente allo smorzamento 
     fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n\n*',over*100,tr,ts,aph,eps,tr_smo,ts_smo);
     
     % Specificare gli errori tollerati a regime:
-    e_r  = 12e-1;   % Errore quando agisce il riferimento.
-    e_da = 1.6e-3;   % Errore quando agisce il disturbo sull'attuatore.
-    e_dp = 1e-2;   % Errore quando agisce il disturbo sull'impianto.
-    e_ds = 0.20e-4;   % Errore quando agisce il disturbo sul sensore.
+    e_r  = 0e-0;   % Errore quando agisce il riferimento.
+    e_da = 0e-0;   % Errore quando agisce il disturbo sull'attuatore.
+    e_dp = 0e-0;   % Errore quando agisce il disturbo sull'impianto.
+    e_ds = 0e-0;   % Errore quando agisce il disturbo sul sensore.
     fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_ds);
         
     % Gradino unitario [ R_u ] || Rampa r(t) [R_0]
-    R_0=1/4;   % Rampa r(t)=t, esempio se r(t)=t/4  -> R_O=0.25
+    R_0=1/1;   % Rampa r(t)=t, esempio se r(t)=t/4  -> R_O=0.25
     R_u=1;   % Gradino unitario, valore 1.  
-    R=R_0;   % Specificare quale dei precedenti riferimenti usare.
+    R=R_u;   % Specificare quale dei precedenti riferimenti usare.
     
 %% Disturbi che agiscono sul sistema:
 % Ricorda che per dsturbi polinomiali Gp=kp/s^p e Gc/s^u. 
 % Il ramo diretto, è riferito all'attuatore.
-% e_da<=>limit[e_da(t),x->inf]<=>limit[s*Gp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Da/s^h+1,s->0]
+% e_da<=>limit[e_da(t),x->inf]<=>limit[s*Gp(s)*Gda(s)/(1+Gp*Gc*Ga*Gf*Gs)*Da/s^h+1,s->0]
 % Il ramo ramo di feedback è riferito al sensore.
-% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gd(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]  
+% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gdp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]  
 
      % Attuatore [ da ]
-     Da_c = 0e-3;     % Inserire qui il valore se risulta una COSTANTE.
-     Da_r = 1.5e-3;      % Inserire qui il valore se risulta una RAMPA.          
+     Da_c = 0e-2;     % Inserire qui il valore se risulta una COSTANTE.
+     Da_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.          
      a_da = 0;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
      Pulse_da = 0;      % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_a = 0;     % La Wl letta tramite maschera su carta semiLog.
-        kc_a = abs(37.5);       % Se calcolato specificare il valore. 
-        u_a = 1;          % Se determinato specificare il valore.
+        kc_a = abs(0);       % Se calcolato specificare il valore. 
+        u_a = -inf;          % Se determinato specificare il valore.
     
         
      % Impianto [ dp ]
-     Dp_c = 0e-4;      % Inserire qui il valore se risulta una COSTANTE.
-     Dp_r = 8e-3;      % Inserire qui il valore se risulta una RAMPA.
+     Dp_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
+     Dp_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.
      a_dp = 0e-2;         % Inserire qui l'ampiezza distubo se SINUSOIDALE.
      Pulse_dp =0e-3;    % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_p = 0; % La Wl letta tramite maschera su carta semiLog
-        kc_p = abs(22.33);      % Se calcolato specificare il valore.
-        u_p = 1;         % Se determinato specificare il valore.
+        kc_p = abs(0);      % Se calcolato specificare il valore.
+        u_p = -inf;         % Se determinato specificare il valore.
     
         
     % Sensore [ ds ]
-    Ds_c = 00e-3;      % Inserire qui il valore se risulta una COSTANTE. 
-    Ds_r = 00e-1;      % Inserire qui il valore se risulta una RAMPA.
-    a_ds = 1e-3;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-    Pulse_ds = 20;      % Inserire qui la w del disturbo se SINUSOIDALE.
+    Ds_c = 00e-2;      % Inserire qui il valore se risulta una COSTANTE. 
+    Ds_r = 00e-2;      % Inserire qui il valore se risulta una RAMPA.
+    a_ds = 00e-2;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+    Pulse_ds = 0;      % Inserire qui la w del disturbo se SINUSOIDALE.
     % Se determinati in fase traduzione delle secifiche inserire:
-        w_h_letta_s = 2; % La Wl letta tramite maschera su carta semiLog
+        w_h_letta_s = 0e0; % La Wl letta tramite maschera su carta semiLog
         kc_s=abs(0);        % Se calcolato specificare il valore.
         u_s=-inf;           % Se determinato specificare il valore.  
   
@@ -109,14 +109,15 @@
     % A meno di stravolgimenti della struttura del controllore, questo è il
     % solo dei 4 ipotetici kc che non cambia espressione di calcolo.
     
-    h_r= 1 ;   % Indicare il tipo di sistema scelto per la specifica sul riferimento.
+    h_r= 0 ;   % Indicare il tipo di sistema scelto per la specifica sul riferimento.
    
-    kc_r=0;  % NO EDIT
+    kc_r=0;  ignore_kc_r=0;% NO EDIT
     u_r = h_r - p; 
     if u_r < 0
     	kc_r = 0;
+        ignore_kc_r=1;
     end
-    if e_r~=0     
+    if ( e_r~=0 && ignore_kc_r==0)     
         if h_r == 0
         	kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga+Kd) );
         elseif h_r == 1 
@@ -162,11 +163,11 @@
     xtr_c=0;xts_s=0; % NO EDIT
     if tr ~=0
         xtr_c=tr_smo/tr; omega_min(1)=xtr_c;
-        fprintf(' Con un tempo di salita:\n\ttr = %.3fs si ha una Wc > %.2f rad/s \n*',tr,xtr_c);
+        fprintf(' Con un tempo di salita:\n\ttr = %.6fs si ha una Wc > %.2f rad/s \n*',tr,xtr_c);
     end
     if ts ~=0
         xts_c=ts_smo/ts; omega_min(2)=xts_c;
-        fprintf(' Con un tempo di assestamento:\n\tts = %.3fs si ha una Wc > %.2f rad/s\n\n*',ts,xts_c);    
+        fprintf(' Con un tempo di assestamento:\n\tts = %.6fs si ha una Wc > %.2f rad/s\n\n*',ts,xts_c);    
     end
  %% [ 3.1 ] TIPO DI SISTEMA - Kc - Pulsazione di progetto.
     u_c_vect=[u_r,u_a,u_p,u_s];  u=max(u_c_vect);
@@ -240,8 +241,8 @@
     Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
-    kc=kc+kc*0.3;   
-    wprog=2.2e0;
+    kc=kc+kc*0.0;   
+    wprog=0;
      
     
     
@@ -256,7 +257,7 @@
     
     % Definendo un md diverso da 1, viene automaticamente determinata la
     % rete che garantisce il miglior recupero di fase. 
-    md=4; md2=6; %12
+    md=1; md2=1; 
                      % Valore md, e fase massima recuperata :
     % Md: 2 Fase: 19.5 | Md: 4 Fase: 36.9 | Md: 6 Fase: 45.6 | Md: 8 Fase: 51.1 
     % Md: 10 Fase: 54.9 | Md: 12 Fase: 57.8 | Md: 14 Fase: 60.1 | Md: 16 Fase: 61.9
@@ -265,7 +266,7 @@
     % Definendo un mi diverso da 1, viene abilitata la rete. Per non
     % rallentare il sistema è opportuno scengliere una normalizzazione non
     % troppo alta.
-    mi = 1; norm_ri=0; %mi = 2; norm_ri=50;
+    mi = 1; norm_ri=0; 
     mi2= 1; norm_ri2=0; 
        
     % Rete Pi :
