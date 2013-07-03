@@ -1,4 +1,4 @@
-%% CONTROLLI AUTOMATICI,  revisione 5, 7/6/2013. 
+%% CONTROLLI AUTOMATICI,  revisione 5.2, 2/7/2013. 
 %  AUTORI: Andrea Rizzo - Giuseppe Tipaldi
 %  IMPOSTAZIONE GRAFICA E ULTIME MODIFICHE A OPERA DI GIUSEPPE.
 %  PRENDI VISIONE DEL FILE ngridcustom.m PER RISOLVERE EVENTUALI ANOMALIE
@@ -6,7 +6,7 @@
 
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
-    fprintf('r5.1 Giuseppe Tipaldi %s \r',date);
+    fprintf('r5.2 Giuseppe Tipaldi %s \r',date);
     fprintf('Setup_ ESAME 2.7.2013\n');
             
 %% DATI PRINCIPALI DEL PROBLEMA:
@@ -39,12 +39,12 @@
     % Specificare i paramentri della risposta al gradino.
     over = 0.0;   % Overshoot.
     tr = 0e-3;    % Rise Time.
-    ts = 0e-3;      % Settling Time.
-    aph = 0.05;    % Volore % di settling.
+    ts = 0e-3;    % Settling Time.
+    aph = 0.05;   % Valore di assestamento percentuale.
     % Calcolo lo Smorzamento
     eps = (abs(log(over)))/(sqrt((pi^2)+(log(over))^2));
-    tr_smo = 0;   % Rise Time corrispondente allo smorzamento
-    ts_smo = 0;   % Settling Time corrispondente allo smorzamento 
+    tr_smo = 0;   % Lettura Tr*wc in funzione dello smorzamento.
+    ts_smo = 0;   % Lettura Ts*wc in funzione dello smorzamento. 
     fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n\n*',over*100,tr,ts,aph,eps,tr_smo,ts_smo);
     
     % Specificare gli errori tollerati a regime:
@@ -55,7 +55,7 @@
     fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_ds);
         
     % Gradino unitario [ R_u ] || Rampa r(t) [R_0]
-    R_0=1/1;   % Rampa r(t)=t, esempio se r(t)=t/4  -> R_O=0.25
+    R_0=1/1;  % Rampa r(t)=t, esempio se r(t)=t/4  -> R_O=0.25
     R_u=1;   % Gradino unitario, valore 1.  
     R=R_u;   % Specificare quale dei precedenti riferimenti usare.
     
@@ -64,13 +64,15 @@
 % Il ramo diretto, è riferito all'attuatore.
 % e_da<=>limit[e_da(t),x->inf]<=>limit[s*Gp(s)*Gda(s)/(1+Gp*Gc*Ga*Gf*Gs)*Da/s^h+1,s->0]
 % Il ramo ramo di feedback è riferito al sensore.
-% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gdp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]  
+% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gdp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]
+% La lettera h nelle speressioni dei limiti non si riferisce all'h usata
+% per indicare il tipo di sistema. 
 
      % Attuatore [ da ]
-     Da_c = 0e-2;     % Inserire qui il valore se risulta una COSTANTE.
+     Da_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
      Da_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.          
-     a_da = 0e-2;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-     Pulse_da = 0;      % Inserire qui la w del disturbo se SINUSOIDALE.
+     a_da = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+     Pulse_da = 0;     % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_a = 0;     % La Wl letta tramite maschera su carta semiLog.
         kc_a = abs(0);       % Se calcolato specificare il valore. 
@@ -80,8 +82,8 @@
      % Impianto [ dp ]
      Dp_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
      Dp_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.
-     a_dp = 0e-2;         % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-     Pulse_dp =0e-3;    % Inserire qui la w del disturbo se SINUSOIDALE.
+     a_dp = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+     Pulse_dp =0e-3;   % Inserire qui la w del disturbo se SINUSOIDALE.
      % Se determinati in fase traduzione delle secifiche inserire:
         w_l_letta_p = 0; % La Wl letta tramite maschera su carta semiLog
         kc_p = abs(0);      % Se calcolato specificare il valore.
@@ -91,10 +93,10 @@
     % Sensore [ ds ]
     Ds_c = 00e-2;      % Inserire qui il valore se risulta una COSTANTE. 
     Ds_r = 00e-2;      % Inserire qui il valore se risulta una RAMPA.
-    a_ds = 0e-1;          % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-    Pulse_ds = 0e3;      % Inserire qui la w del disturbo se SINUSOIDALE.
+    a_ds = 0e-1;       % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+    Pulse_ds = 0e3;    % Inserire qui la w del disturbo se SINUSOIDALE.
     % Se determinati in fase traduzione delle secifiche inserire:
-        w_h_letta_s = 0; % La Wl letta tramite maschera su carta semiLog
+        w_h_letta_s = 0;    % La Wl letta tramite maschera su carta semiLog.
         kc_s=abs(0);        % Se calcolato specificare il valore.
         u_s=-inf;           % Se determinato specificare il valore.  
   
@@ -110,9 +112,8 @@
     % solo dei 4 ipotetici kc che non cambia espressione di calcolo.
     kc_r=0;  ignore_kc_r=0;% NO EDIT
     
-    h_r= 0 ;   % Indicare h che verifica il limite.
+    h_r= 0 ;   % Indicare h (h=u+p) che verifica il limite.
    
-    
     u_r = h_r - p; 
     if u_r < 0
         h_r=h_r+1; u_r = h_r - p;
@@ -174,7 +175,7 @@
     u_c_vect=[u_r,u_a,u_p,u_s];  u=max(u_c_vect);
  
     if u < 0
-        u=0; % Warning u negativi no! Specificare un u manuale.  
+        u=0; % Warning u negativi no!   
     end
     for j=1:4,
         if u_c_vect(j) == u
@@ -186,7 +187,7 @@
     h=u+p;
     fprintf(' Specifica riferimento kc=%.3g, u=%d.\n* Specifica attenuatore kc=%.3g, u=%d.\n* Specifica impianto kc=%.3g, u=%d.\n* Specifica sensore kc=%.3g, u=%d. \n\n*',gain_vect(1),u_c_vect(1),gain_vect(2),u_c_vect(2),gain_vect(3),u_c_vect(3),gain_vect(4),u_c_vect(4));
     if kc == 0
-       kc=150; % Kc Libero.
+       kc=1; % Kc Libero, essendo libero posto pari ad 1.
        fprintf(' VINCOLI DETERMINATI: \n\tGuadagno controllore Kc LIBERO. \n\tGrado controllore u=%d. \n\tGrado Tipo sistema h=%d\n',u,h);
     else
        fprintf(' VINCOLI DETERMINATI: \n\tGuadagno controllore Kc>%.3g. \n\tGrado controllore u=%d. \n\tGrado Tipo sistema h=%d\n',kc,u,h); 
@@ -194,11 +195,10 @@
     
 
     if w_c_s == 0
-       fprintf(' \tW massima : LIBER0\n'); 
+       fprintf(' \tW massima : NON VINCOLATA\n'); 
        fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min);
     else 
        if w_c_s < Wc_min
-            %fprintf(' \tW massima : %.3g rad/s\n',w_c_s);
             fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min); 
        else
             fprintf(' \tRange  W  : %.3g<W<%.3g  rad/s\n*',Wc_min,w_c_s); 
@@ -234,16 +234,14 @@
 % u : Il grado del controllore deve essere il massimo di quelli fin qui
 % determinati. 
 
-% Wc Kc  
-%     NOTA il sitema risulta tanto veloce, quanto maggiori Wc Kc  scelta.
-% Wceff 
-%     Letta sul grafico di nichols, pulsazione per cui |Lz|=0db
+    %h= u= p=  % decommenta per setup manuale.
+
 
     Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
-    kc=kc+kc*0.0;   
-    wprog=0e3;
+    kc=kc+(kc*1/10);    % KC 
+    wprog=0e3;          % Wc
      
     
     
@@ -258,7 +256,7 @@
     
     % Definendo un md diverso da 1, viene automaticamente determinata la
     % rete che garantisce il miglior recupero di fase. 
-    md=0; md2=0; 
+    md=1; md2=1; 
                      % Valore md, e fase massima recuperata :
     % Md: 2 Fase: 19.5 | Md: 4 Fase: 36.9 | Md: 6 Fase: 45.6 | Md: 8 Fase: 51.1 
     % Md: 10 Fase: 54.9 | Md: 12 Fase: 57.8 | Md: 14 Fase: 60.1 | Md: 16 Fase: 61.9
@@ -267,6 +265,7 @@
     % Definendo un mi diverso da 1, viene abilitata la rete. Per non
     % rallentare il sistema è opportuno scengliere una normalizzazione non
     % troppo alta.
+    % Nelle variabili norm_ri inserire il rapporto w/pi letto sulle carte.
     mi = 1; norm_ri=0; 
     mi2= 1; norm_ri2=0; 
        
@@ -281,8 +280,8 @@
 
 %                    ------ WARING ------- 
     % Quando cambiare segno al Kc:
-    % Nichols è girato al contratio o non ruota corettamente attorno al punto critico
-    % La fase di L risulta posiva 
+    % Nichols è girato al contratio (chiusura con raggio infinito a sx del punto critico) 
+    % La fase di L risulta posiva alle Wc di progetto.
     Kc_v = kc;
     %Kc_v=-kc; 
     
@@ -374,7 +373,7 @@
     Ts=0.1/(Wceff); [Gcz,Lz]=TDmode(Ts,Glp,Gc,Ga,Gp,Gs,Gf);
     %GRAFICI: In rosso i tratti relativi al tempo discreto.
     [num_Gcz,den_Gcz]=Graph2(Lz,Gcz,Tp,Sp);
-    fprintf('\n\t Tempo di campionamento Ts %.5g sec.\n',Ts);  
+    fprintf('\n Tempo di campionamento Ts %.5g sec.\n',Ts);  
     
 %% [ 8.0 ] Paramentri di simulazione per simulink :
 % Generalmente non si ha necessità di modificare questo paragrafo, tranne
@@ -403,7 +402,8 @@
             if ( pulse_d < 0)
                 fprintf('Caso strano, ommetto il progetto.\n')
             else
-                Pulse_AAF=ceil((pulse_d*0.8)); [lp_bssl_n,lp_bssl_d]=besself(AA_order,Pulse_AAF);
+                Pulse_AAF=ceil((pulse_d*0.8)); % Pulse_AFF definisce la w di taglio del filtro.
+                [lp_bssl_n,lp_bssl_d]=besself(AA_order,Pulse_AAF);
                 Glp = tf(lp_bssl_n,lp_bssl_d);
                 close all
                 figure('Name',' Comportamento del filtro:'); freqs(lp_bssl_n,lp_bssl_d);
@@ -430,7 +430,6 @@
     sig_gen_amp= 0.5;
     sig_gen_freq= 0.25;
     
-%close all;
 
 %% [ 12.0 ] Output della simulazione :  
 % Importa nello spazione di lavoro di matlab output generato da simulink.
@@ -440,3 +439,6 @@ if SAVE_SIMU_DATA == 1
     figure('Name',' Output error','Position',[1 scrsz(4) scrsz(3) scrsz(4)]);
     plot(simout1.time, simout1.signals.values);
 end
+
+%close all;
+
