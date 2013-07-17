@@ -50,7 +50,7 @@ function [ ] = Graph1( Hzp,L,Tp,Sp )
     nichols(Hzp,'g') %si traccia il diagramma di Nichols del sistema analogico
     title('Diagramma di Nichols del Sistema Analogico')
     grid on
-    set(gca,'ylim',[-50,50])
+    set(gca,'ylim',[-50,120])
     %set(gca,'xlim',[-360,180]) % allarga l'asse x
     hold on
 end

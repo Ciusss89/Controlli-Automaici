@@ -14,7 +14,8 @@ function [ ris_num_Gcz,ris_den_Gcz ] = Graph2( Lz,Gcz,Tp,Sp )
     ngridcustom(Tp,Sp) % disegna le curve a modulo costante  
     hold on
     nichols(num_Lz,den_Lz,'r') % disegna la funzione ad anello in nichols
+    set(gca,'ylim',[-50,120])
+   % set(gca,'xlim',[-360,180]) % allarga l'asse x
     grid on
-    set(gca,'ylim',[-50,50])
 end
 

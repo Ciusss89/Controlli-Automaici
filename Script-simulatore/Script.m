@@ -1,4 +1,4 @@
-%% CONTROLLI AUTOMATICI,  revisione 5.2, 2/7/2013. 
+%% CONTROLLI AUTOMATICI,  revisione 5.3, 2/7/2013. 
 %  AUTORI: Andrea Rizzo - Giuseppe Tipaldi
 %  IMPOSTAZIONE GRAFICA E ULTIME MODIFICHE A OPERA DI GIUSEPPE.
 %  PRENDI VISIONE DEL FILE ngridcustom.m PER RISOLVERE EVENTUALI ANOMALIE
@@ -6,18 +6,18 @@
 
     bdclose all;slCharacterEncoding('Windows-1252'); 
     clc; clear all; close all; s=tf('s'); scrsz = get(0,'ScreenSize');
-    fprintf('r5.2 Giuseppe Tipaldi %s \r',date);
-    fprintf('Setup_ ESAME 2.7.2013\n');
+    fprintf('r5.3 Giuseppe Tipaldi %s \r',date);
+    fprintf('Setup_ ESAME 18.7.2013\n');
             
 %% DATI PRINCIPALI DEL PROBLEMA:
     % Blocchi costituienti il tipo di controllore.
-    Gp =  0;
+    Gp =  ;
     fprintf(' Gp(s), espressa in forma ZERO-POLI-GUADAGNO;' ); zpk(Gp)
     fprintf('******************************************************\n*');
-    p  = 0;  % n.ro di poli nell'origine dell'impianto (Funzione Gp). 
-    Kd = 00; 
+    p  = ;  % n.ro di poli nell'origine dell'impianto (Funzione Gp). 
+    Kd = 0; 
     Gs = 0e-0; 
-    Ga = 0e0; 
+    Ga = 0e-0; 
     Gr = 1e0; 
     Gf = 1/(Kd*Gs);
     fprintf(' Poli nell''origine %d\n* Guadagno Kd %.3g\n* Funzione Sensore %.3g\n* Funzione Attenuatore %.3g\n* Funzione Gr %.3g\n* Funzione Gf %.3g\n\n*',p,Kd,Gs,Ga,Gr,Gf);
@@ -25,7 +25,7 @@
     % Specificare la costante di guadagno del blocco Gda. Se diversa da una
     % costante, porre a 0 Gda, e introdurre la funzione Gda_s.
     % Nel caso in cui non risulti specificata porre Gda=1.
-    Gda = 0; 
+    Gda = 1; 
     Gda_s = 0*s;
     [num_Gda,den_Gda]=tfdata(Gda_s,'v');
 
@@ -43,14 +43,12 @@
     aph = 0.05;   % Valore di assestamento percentuale.
     % Calcolo lo Smorzamento
     eps = (abs(log(over)))/(sqrt((pi^2)+(log(over))^2));
-    tr_smo = 0;   % Lettura Tr*wc in funzione dello smorzamento.
-    ts_smo = 0;   % Lettura Ts*wc in funzione dello smorzamento. 
-    fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n\n*',over*100,tr,ts,aph,eps,tr_smo,ts_smo);
+    fprintf(' Overshoot %d%%\n* Rise Time %.3g Sec\n* Settling Time %.3g Sec\n* Assestamento %% %.3g\n* Smorzamento %.3g\n*',over*100,tr,ts,aph,eps);
     
     % Specificare gli errori tollerati a regime:
-    e_r  = 0e-0;   % Errore quando agisce il riferimento.
-    e_da = 0e-0;   % Errore quando agisce il disturbo sull'attuatore.
-    e_dp = 0e-0;   % Errore quando agisce il disturbo sull'impianto.
+    e_r  = 0e-3;   % Errore quando agisce il riferimento.
+    e_da = 0e-2;   % Errore quando agisce il disturbo sull'attuatore.
+    e_dp = 0e-2;   % Errore quando agisce il disturbo sull'impianto.
     e_ds = 0e-2;   % Errore quando agisce il disturbo sul sensore.
     fprintf(' Errore sul riferimento %.3g\n* Errore sull''attenuatore %.3g\n* Errore sull''impianto %.3g\n* Errore sul sensore %.3g\n\n*',e_r,e_da,e_dp,e_ds);
         
@@ -59,109 +57,37 @@
     R_u=1;   % Gradino unitario, valore 1.  
     R=R_u;   % Specificare quale dei precedenti riferimenti usare.
     
-%% Disturbi che agiscono sul sistema:
-% Ricorda che per dsturbi polinomiali Gp=kp/s^p e Gc/s^u. 
-% Il ramo diretto, è riferito all'attuatore.
-% e_da<=>limit[e_da(t),x->inf]<=>limit[s*Gp(s)*Gda(s)/(1+Gp*Gc*Ga*Gf*Gs)*Da/s^h+1,s->0]
-% Il ramo ramo di feedback è riferito al sensore.
-% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gdp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]
-% La lettera h nelle speressioni dei limiti non si riferisce all'h usata
-% per indicare il tipo di sistema. 
 
-     % Attuatore [ da ]
-     Da_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
-     Da_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.          
-     a_da = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-     Pulse_da = 0;     % Inserire qui la w del disturbo se SINUSOIDALE.
-     % Se determinati in fase traduzione delle secifiche inserire:
-        w_l_letta_a = 0;     % La Wl letta tramite maschera su carta semiLog.
-        kc_a = abs(0);       % Se calcolato specificare il valore. 
-        u_a = -inf;          % Se determinato specificare il valore.
-    
-        
-     % Impianto [ dp ]
-     Dp_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
-     Dp_r = 0e-2;      % Inserire qui il valore se risulta una RAMPA.
-     a_dp = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-     Pulse_dp =0e-3;   % Inserire qui la w del disturbo se SINUSOIDALE.
-     % Se determinati in fase traduzione delle secifiche inserire:
-        w_l_letta_p = 0; % La Wl letta tramite maschera su carta semiLog
-        kc_p = abs(0);      % Se calcolato specificare il valore.
-        u_p = -inf;         % Se determinato specificare il valore.
-    
-        
+    % Attuatore [ da ]
+    Da_c = 0e-3;      % Inserire qui il valore se risulta una COSTANTE.
+    Da_r = 0e-3;      % Inserire qui il valore se risulta una RAMPA.          
+    a_da = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+    Pulse_da = 0;     % Inserire qui la w del disturbo se SINUSOIDALE.
+
+    % Impianto [ dp ]
+    Dp_c = 0e-2;      % Inserire qui il valore se risulta una COSTANTE.
+    Dp_r = 0e-3;      % Inserire qui il valore se risulta una RAMPA.
+    a_dp = 0e-2;      % Inserire qui l'ampiezza distubo se SINUSOIDALE.
+    Pulse_dp = 0;   % Inserire qui la w del disturbo se SINUSOIDALE.
+   
     % Sensore [ ds ]
     Ds_c = 00e-2;      % Inserire qui il valore se risulta una COSTANTE. 
     Ds_r = 00e-2;      % Inserire qui il valore se risulta una RAMPA.
     a_ds = 0e-1;       % Inserire qui l'ampiezza distubo se SINUSOIDALE.
-    Pulse_ds = 0e3;    % Inserire qui la w del disturbo se SINUSOIDALE.
-    % Se determinati in fase traduzione delle secifiche inserire:
-        w_h_letta_s = 0;    % La Wl letta tramite maschera su carta semiLog.
-        kc_s=abs(0);        % Se calcolato specificare il valore.
-        u_s=-inf;           % Se determinato specificare il valore.  
-  
+    Pulse_ds = 0;    % Inserire qui la w del disturbo se SINUSOIDALE.
+    
         
-%% [ 1.0 ] Calcolo Kp    
+%% [ 1 ] Calcolo Kp    
 % Il kp è il k stazionario.  Lim [s^p*Gp(s)] per s->0, 
     kp = dcgain((s^p)*Gp); fprintf(' Guadagno a Bassa Frequenza: \n\tKp = %.3f\n*',kp);
-    
-    
-%% [ 2.0 ] DETERMINAZIONE DEI Kc. 
-    % RIFERIMENTO:
-    % A meno di stravolgimenti della struttura del controllore, questo è il
-    % solo dei 4 ipotetici kc che non cambia espressione di calcolo.
-    kc_r=0;  ignore_kc_r=0;% NO EDIT
-    
-    h_r= 0 ;   % Indicare h (h=u+p) che verifica il limite.
-   
-    u_r = h_r - p; 
-    if u_r < 0
-        h_r=h_r+1; u_r = h_r - p;
-    	kc_r =0; ignore_kc_r=1;
-    end
-    if ( e_r~=0 && ignore_kc_r==0)     
-        if h_r == 0
-        	kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga+Kd) );
-        elseif h_r == 1 
-            kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
-        else
-            kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
-        end
-    end
-    % I kc relativi all'attuatore, impianto, sensore, vanno calcolati a
-    % mano.
-    gain_vect=[kc_r,kc_a,kc_p,kc_s]; tmp=[0,0,0,0];
-    omega_min=[0,0,0,0]; w_c_s=0;
 
-%%    -    Disturbi sinusoidali
-    % Calcolo disturbi sinusoidali.
-
-    % Impianto, disturbo sul ramo diretto.
-    if a_da ~=0
-        MS_lf=20*log10(e_da/a_da); % Modulo della funzione S a Low_Frequency 
-        w_c_a=w_l_letta_a*2;  % Wc calcolata in funzione del disturbo presente
-        omega_min(3)=w_c_a;
-        fprintf(' Disturbo sul ramo diretto attuatore:\n\tMS_LF = %.3fdB, Wc > %.3f rad/s \n*',MS_lf,w_c_a);    
-    end
- 
-    % Impianto, disturbo sul ramo diretto.
-    if a_dp ~=0
-        MS_lf=20*log10(e_dp/a_dp); % Modulo della funzione S a Low_Frequency 
-        w_c_p=w_l_letta_p*2; % Wc calcolata in funzione del disturbo presente
-        omega_min(4)=w_c_p;
-        fprintf(' Disturbo sul ramo diretto:\n\tMS_LF = %.3fdB, Wc > %.3f rad/s \n*',MS_lf,w_c_p);
-    end
-    
-    % Sensore, disturbo sul ramo di feedback
-    if a_ds ~=0
-        MT_hf=20*log10(e_ds*Gs/a_ds); % Modulo della funzione T ad High_Frequency 
-    	w_c_s=w_h_letta_s/2;
-        fprintf(' Disturbo sul ramo di feedback:\n\tMT_HF = %.3fdB, Wc < %.3f rad/s \n*',MT_hf,w_c_s);
-    end
-    
-%% [ 3 ] Rise time e Settling time:
+%% [ 2.0 ] Specifica Tr & Ts
 % In funzione dello smorzamento, determinare dalle curve i valori di Tr e Ts
 % I valori vanno letttti dalle curve.
+    tr_smo = 0;   % Lettura Tr*wc in funzione dello smorzamento.
+    ts_smo = 0;   % Lettura Ts*wc in funzione dello smorzamento. 
+    
+    fprintf('\n* Lettura Rise Time smorzato %.3g\n* Lettura Settling Time smorzato %.3g\n*',tr_smo,ts_smo);
     xtr_c=0;xts_s=0; % NO EDIT
     if tr ~=0
         xtr_c=tr_smo/tr; omega_min(1)=xtr_c;
@@ -171,42 +97,84 @@
         xts_c=ts_smo/ts; omega_min(2)=xts_c;
         fprintf(' Con un tempo di assestamento:\n\tts = %.6fs si ha una Wc > %.2f rad/s\n\n*',ts,xts_c);    
     end
- %% [ 3.1 ] TIPO DI SISTEMA - Kc - Pulsazione di progetto.
-    u_c_vect=[u_r,u_a,u_p,u_s];  u=max(u_c_vect);
- 
-    if u < 0
-        u=0; % Warning u negativi no!   
+    
+%% [ 2.1 ] Specifiche che determinano il tipo di sistema h e introducono limiti sul kc: 
+% Ricorda che per dsturbi polinomiali Gp=kp/s^p e Gc/s^u. 
+% Il ramo diretto, è riferito all'attuatore.
+% e_da<=>limit[e_da(t),x->inf]<=>limit[s*Gp(s)*Gda(s)/(1+Gp*Gc*Ga*Gf*Gs)*Da/s^h+1,s->0]
+% Il ramo ramo di feedback è riferito al sensore.
+% e_dp<=>limit[e_dp(t),x->inf]<=>limit[s*Gdp(s)/(1+Gp*Gc*Ga*Gf*Gs)*Dp/s^h+1,s->0]
+% La lettera h nelle speressioni dei limiti non si riferisce all'h usata
+% per indicare il tipo di sistema.     
+
+    %Riferimento:
+    h_r= 0 ;        % Indicare h (h=u+p) che verifica il limite del limite.
+    % Kc: A meno di stravolgimenti della struttura del controllore, questo è il
+    %     solo dei 4 ipotetici kc che non cambia espressione di calcolo, viene 
+    %     automaticamente determinato.
+
+    %Attuatore.
+    kc_a = abs(0);      % Se calcolato specificare il valore. 
+    u_a = -inf;         % Se determinato specificare il valore.
+   
+    %Impianto.
+    kc_p = abs(0);      % Se calcolato specificare il valore.
+    u_p = -inf;            % Se determinato specificare il valore.    
+    
+    %Sensore.
+    kc_s = abs(0);        % Se calcolato specificare il valore.
+    u_s = -inf;           % Se determinato specificare il valore. 
+
+    
+    kc_r=0;  ignore_kc_r=0;% NO EDIT
+    u_r = h_r - p; 
+    if u_r < 0
+        h_r=h_r+1; u_r = h_r - p;
+    	kc_r =0; ignore_kc_r=1;
     end
-    for j=1:4,
-        if u_c_vect(j) == u
-            tmp(j)=gain_vect(j);
+    if ( e_r~=0 && ignore_kc_r==0)     
+        if h_r == 0
+        	kc_r = abs( (R_0*Kd^2-e_r*Kd)/(e_r*kp*Ga) );
+        elseif h_r == 1 
+            kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
+        else
+            kc_r = abs( (R_0*Kd^2)/(e_r*kp*Ga) );
         end
     end
-    Wc_min=max(omega_min);
-    kc=max(tmp);
-    h=u+p;
-    fprintf(' Specifica riferimento kc=%.3g, u=%d.\n* Specifica attenuatore kc=%.3g, u=%d.\n* Specifica impianto kc=%.3g, u=%d.\n* Specifica sensore kc=%.3g, u=%d. \n\n*',gain_vect(1),u_c_vect(1),gain_vect(2),u_c_vect(2),gain_vect(3),u_c_vect(3),gain_vect(4),u_c_vect(4));
-    if kc == 0
-       kc=1; % Kc Libero, essendo libero posto pari ad 1.
-       fprintf(' VINCOLI DETERMINATI: \n\tGuadagno controllore Kc LIBERO. \n\tGrado controllore u=%d. \n\tGrado Tipo sistema h=%d\n',u,h);
-    else
-       fprintf(' VINCOLI DETERMINATI: \n\tGuadagno controllore Kc>%.3g. \n\tGrado controllore u=%d. \n\tGrado Tipo sistema h=%d\n',kc,u,h); 
+    gain_vect=[kc_r,kc_a,kc_p,kc_s]; tmp=[0,0,0,0]; w_c_s=0; %omega_min=[0,0,0,0];
+
+%% [ 2.2 ] Disturbi sinusoidali 
+    
+    % Impianto, disturbo sul ramo diretto.
+    if a_da ~=0
+        MS_lf=20*log10(e_da/a_da); % Modulo della funzione S a Low_Frequency 
+        w_l_letta_a=Pulse_da/sqrt(10^(MS_lf/20));
+        fprintf(' Disturbo sul ramo diretto:\n\tWl=%.3g rad/s',w_l_letta_a);
+        w_c_a=w_l_letta_a*2;  % Wc calcolata in funzione del disturbo presente
+        omega_min(3)=w_c_a;
+        fprintf('\n\tMS_LF = %.3fdB, Wc > %.3f rad/s \n*',MS_lf,w_c_a);    
+    end
+ 
+    % Impianto, disturbo sul ramo diretto.
+    if a_dp ~=0
+        MS_lf=20*log10(e_dp/a_dp); % Modulo della funzione S a Low_Frequency 
+        w_l_letta_p=Pulse_dp/sqrt(10^(MS_lf/20));
+        fprintf(' Disturbo sul ramo diretto:\n\tWl=%.3g rad/s',w_l_letta_p);
+        w_c_p=w_l_letta_p*2; % Wc calcolata in funzione del disturbo presente
+        omega_min(4)=w_c_p;
+        fprintf('\n\tMS_LF = %.3fdB, Wc > %.3f rad/s  \n*',MS_lf,w_c_p);
     end
     
+    % Sensore, disturbo sul ramo di feedback
+    if a_ds ~=0
+        MT_hf=20*log10(e_ds*Gs/a_ds); % Modulo della funzione T ad High_Frequency 
+        w_h_letta_s =Pulse_ds*sqrt(10^(MT_hf/20));
+        fprintf(' Disturbo sul ramo di feedback:\n\tWl=%.3g rad/s',w_h_letta_s);
+    	w_c_s=w_h_letta_s/2;
+        fprintf(' \n\tMT_HF = %.3fdB, Wc < %.3f rad/s \n*',MT_hf,w_c_s);
+    end
 
-    if w_c_s == 0
-       fprintf(' \tW massima : NON VINCOLATA\n'); 
-       fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min);
-    else 
-       if w_c_s < Wc_min
-            fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min); 
-       else
-            fprintf(' \tRange  W  : %.3g<W<%.3g  rad/s\n*',Wc_min,w_c_s); 
-       end
-    end 
-   
-
-%% [ 3.2 ] Sovraelongazione, Smorzamento, Picchi risonanza ( Sp, Tp), margini (mG_T, mPh_T, mG_S, mPh_S).
+%% [ 3 ] Sovraelongazione, Smorzamento, Picchi risonanza ( Sp, Tp), margini (mG_T, mPh_T, mG_S, mPh_S).
 % Lo smorzamento può essere calcolato analitcamente (soluzione proposta)
 % oppure dedotto graficamente in funzione della sovraelongazione.
     
@@ -227,24 +195,63 @@
     fprintf(' Minima fase da rispettare per il digitale: %.0f\n',grad_stable); 
     fprintf('******************************************************\n*');
     
+ %% [ 4 ] TIPO DI SISTEMA - Kc - Pulsazione di progetto.
+    u_c_vect=[u_r,u_a,u_p,u_s];  u=max(u_c_vect);
+ 
+    if u < 0
+        u=0; % Warning u negativi no!   
+    end
+    for j=1:4,
+        if u_c_vect(j) == u
+            tmp(j)=gain_vect(j);
+        end
+    end
+    Wc_min=max(omega_min);
+    kc=max(tmp);
+    h=u+p;
+    fprintf(' Specifica riferimento kc=%.3g, u=%d.\n*',gain_vect(1),u_c_vect(1));
+    if u_c_vect(2) >= 0
+        fprintf(' Specifica attenuatore kc=%.3g, u=%d.\n* ',gain_vect(2),u_c_vect(2));
+    end
+    if u_c_vect(3) >= 0
+      fprintf(' Specifica impianto kc=%.3g, u=%d.\n*',gain_vect(3),u_c_vect(3));      
+    end
+    if u_c_vect(4) >= 0
+        fprintf(' Specifica sensore kc=%.3g, u=%d.\n*',gain_vect(4),u_c_vect(4));
+    end
+    if kc == 0
+       kc=1; % Kc Libero, essendo libero posto pari ad 1.
+       fprintf(' VINCOLI DETERMINATI: \n\tKc libero. \n\tGrado controllore u=%d. \n\tTipo sistema h=%d\n',u,h); 
+    else
+       fprintf(' VINCOLI DETERMINATI: \n\tGuadagno controllore Kc>%.3g. \n\tGrado controllore u=%d. \n\tTipo sistema h=%d\n',kc,u,h); 
+    end
+    
+
+    if w_c_s == 0
+       fprintf(' \tW massima : NON VINCOLATA\n'); 
+       fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min);
+    else 
+       if w_c_s < Wc_min
+            fprintf(' \tW minima  : %.3g rad/s\n*',Wc_min); 
+       else
+            fprintf(' \tRange  W  : %.3g<W<%.3g  rad/s\n*',Wc_min,w_c_s); 
+       end
+    end 
 
 %% [ 4.0 ] Basi del progetto:
 % Kc: Il guadagno del controllore (Kc) deve essere il massimo fra quelli 
 % fin qui calcolati, MA SOLO A PARITA' DI u PIU' ALTO.
 % u : Il grado del controllore deve essere il massimo di quelli fin qui
 % determinati. 
+Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
 
     %h= u= p=  % decommenta per setup manuale.
-
-
-    Rd=1; Ri=1; Rpi=1; Glp=1;  % NO EDIT
+    
     FAA_ON = 0;         % ABILITA IL PROGETTO DEL FILTRO AA SE POSTO A 1
     SAVE_SIMU_DATA = 0; % ABILITA IMPORTAZIONE GRAFICI SE SIMULATO. 
-    kc=kc+(kc*1/10);    % KC 
-    wprog=0e3;          % Wc
+    kc=1;    % KC 
+    wprog=0e0;          % Wc
      
-    
-    
     fprintf('Progetto:');
     fprintf('\n\tkc = %.3f.\n\th=%1.0f.\n\tu=%1.0f.\n\tWc = %.2f. rad/s.\n',kc,h,u,wprog);
   
@@ -266,8 +273,8 @@
     % rallentare il sistema è opportuno scengliere una normalizzazione non
     % troppo alta.
     % Nelle variabili norm_ri inserire il rapporto w/pi letto sulle carte.
-    mi = 1; norm_ri=0; 
-    mi2= 1; norm_ri2=0; 
+    mi = 1; norm_ri=1; 
+    mi2= 1; norm_ri2=1; 
        
     % Rete Pi :
     % Questo tipo di rete fornisce un controllore più economico. 
@@ -283,7 +290,6 @@
     % Nichols è girato al contratio (chiusura con raggio infinito a sx del punto critico) 
     % La fase di L risulta posiva alle Wc di progetto.
     Kc_v = kc;
-    %Kc_v=-kc; 
     
     % Criterio di Nyquest :
     %     Ipotesi per avere N ben definito : il digramma di nyquist non
@@ -301,7 +307,7 @@
     % Rete anticipatrice a rucupero fase: 
     if  md ~=1
         zd=wprog/(chop(sqrt(md),2,1));
-        % norm_rd=1.2; zd = wprog/norm_rd; Decommenta per progetto manuale
+        %norm_rd=3; zd = wprog/norm_rd; % Decommenta per progetto manuale
         Rd=(1+s/zd)/(1+s/(zd*md)); fase_Rd=(asin((md-1)/(md+1)))*((180)/(pi));
         gain_rd=-20*log10(1/md);
         fprintf('Rete derivativa 1:');
@@ -309,7 +315,7 @@
     end
     if  md2 ~=1
         zd2=wprog/(chop(sqrt(md2),2,1)); 
-        % norm_rd2=1.2; zd2 = wprog/norm_rd2; Decommenta per progetto manuale
+        % norm_rd2=1.2; zd2 = wprog/norm_rd2; % Decommenta per progetto manuale
         Rd=Rd*(1+(s/zd2))/(1+(s/(zd2*md2))); fase_Rd2=(asin((md2-1)/(md2+1)))*((180)/(pi));
         gain_rd2=-20*log10(1/md2);
         fprintf('Rete derivativa 2:');

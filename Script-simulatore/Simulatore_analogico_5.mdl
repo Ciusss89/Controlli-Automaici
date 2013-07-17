@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.131"
+    ComputedModelVersion    "1.133"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "giuse"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jun 25 11:44:28 2013"
-  RTWModifiedTimeStamp	  294061444
-  ModelVersionFormat	  "1.%<AutoIncrement:131>"
+  LastModifiedDate	  "Mon Jul 15 22:39:47 2013"
+  RTWModifiedTimeStamp	  295828779
+  ModelVersionFormat	  "1.%<AutoIncrement:133>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -788,7 +788,7 @@ Model {
   }
   System {
     Name		    "Simulatore_analogico_5"
-    Location		    [71, 55, 1367, 1055]
+    Location		    [69, 87, 1365, 1087]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -821,7 +821,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
@@ -953,7 +953,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      sw		      "1"
+      sw		      "0"
       action		      "0"
       varsize		      off
     }
